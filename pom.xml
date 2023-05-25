@@ -9,6 +9,7 @@
     <properties>
       <akka.version>2.7.0</akka.version>
       <scala.binary.version>2.13</scala.binary.version>
+      <akka-management-cluster-bootstrap.version>1.0.7</akka-management-cluster-bootstrap.version>
     </properties>
 
     <parent>
@@ -23,7 +24,7 @@
             <dependency>
                 <groupId>com.typesafe.akka</groupId>
                 <artifactId>akka-bom_${scala.binary.version}</artifactId>
-                <version>2.8.2</version>
+                <version>${akka.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -52,6 +53,49 @@
             <groupId>com.typesafe.akka</groupId>
             <artifactId>akka-actor_${scala.binary.version}</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-cluster-sharding_2.13</artifactId>
+            <version>${akka.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-slf4j_2.13</artifactId>
+            <version>${akka.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-serialization-jackson_2.13</artifactId>
+            <version>${akka.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lightbend.akka.management</groupId>
+            <artifactId>akka-management-cluster-bootstrap_2.13</artifactId>
+            <version>${akka-management-cluster-bootstrap.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.typesafe.akka</groupId>
+                    <artifactId>akka-cluster_2.13</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.typesafe.akka</groupId>
+                    <artifactId>akka-discovery_2.13</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.typesafe.akka</groupId>
+                    <artifactId>akka-protobuf_2.13</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.typesafe.akka</groupId>
+                    <artifactId>akka-actor_2.13</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.typesafe.akka</groupId>
+                    <artifactId>akka-stream_2.13</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>

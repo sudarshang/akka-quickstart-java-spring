@@ -8,6 +8,7 @@ import akka.actor.SupervisorStrategy;
 import akka.actor.Terminated;
 import akka.actor.AbstractActor;
 import akka.japi.pf.DeciderBuilder;
+import org.springframework.context.ApplicationContext;
 
 import java.time.Duration;
 
@@ -15,12 +16,14 @@ public class Manager extends AbstractActor {
 
     private final SupervisorStrategy supervisorStrategy;
     private final ActorRef worker;
+    private ApplicationContext applicationContext;
 
-    public Manager(){
+    public Manager(ApplicationContext applicationContext){
+        this.applicationContext = applicationContext;
 
         worker = context().actorOf(Props.create(Worker.class), "worker");
 
-        context().watch(worker);
+        // context().watch(worker);
 
         this.supervisorStrategy = new OneForOneStrategy(
             3,
