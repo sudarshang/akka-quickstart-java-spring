@@ -1,11 +1,17 @@
 package com.example;
 
 import akka.actor.AbstractActorWithTimers;
+import akka.actor.OneForOneStrategy;
+import akka.actor.SupervisorStrategy;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import akka.japi.pf.DeciderBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import scala.Option;
+import scala.concurrent.duration.Duration;
+
+import java.util.concurrent.TimeUnit;
 
 public class Worker extends AbstractActorWithTimers {
 
@@ -28,6 +34,19 @@ public class Worker extends AbstractActorWithTimers {
         public String getValue(){
             return this.value;
         }
+    }
+
+
+    private static SupervisorStrategy strategy =
+            new OneForOneStrategy(10, Duration.apply(1, TimeUnit.MINUTES), true,
+                    DeciderBuilder
+                            .match(NullPointerException.class, e -> (SupervisorStrategy.Directive) SupervisorStrategy.restart())
+                            .matchAny(o -> (SupervisorStrategy.Directive) SupervisorStrategy.escalate())
+                            .build());
+
+    @Override
+    public SupervisorStrategy supervisorStrategy() {
+        return strategy;
     }
 
 
